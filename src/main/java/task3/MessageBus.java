@@ -3,6 +3,7 @@ package task3;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Dauren_Altynbekov on 10/12/2015.
@@ -10,22 +11,28 @@ import java.util.*;
 public class MessageBus {
 
     Logger log = Logger.getLogger(getClass());
-    private Map<MessageTheme, String> messages;
+    private Map<MessageTheme, LinkedList<String>> messages;
+    AtomicInteger counter = new AtomicInteger(0);
 
     public MessageBus() {
-        this.messages = new HashMap<MessageTheme, String>();
+        this.messages = new HashMap<MessageTheme, LinkedList<String>>();
+        for (int i = 0; i < MessageTheme.values().length; i++) {
+            this.messages.put(MessageTheme.values()[i], new LinkedList<String>());
+        }
     }
 
     public synchronized String getMessage(MessageTheme theme) {
         if(messages.containsKey(theme)){
-            return messages.get(theme);
+            String returnedMessage = messages.get(theme).getFirst();
+            messages.get(theme).removeFirst();
+            return returnedMessage;
         } else {
             throw new IllegalArgumentException("There is no message with theme: " + theme);
         }
     }
 
     public synchronized void setMessage(String randomMessage, MessageTheme theme) {
-        log.info("Get message with theme:" + theme);
-        messages.put(theme,randomMessage);
+        log.info("Get message with theme:" + theme + " Message count: " + counter.incrementAndGet());
+        messages.get(theme).addLast(randomMessage);
     }
 }
