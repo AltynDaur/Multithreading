@@ -10,7 +10,7 @@ public class Runner {
             new Thread(new MessageProducer(messageBus)).start();
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < MessageTheme.values().length; i++) {
             new Thread(new MessageConsumer(messageBus, MessageTheme.values()[i])).start();
         }
     }

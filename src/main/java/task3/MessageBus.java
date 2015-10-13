@@ -22,13 +22,9 @@ public class MessageBus {
     }
 
     public synchronized String getMessage(MessageTheme theme) {
-        if(messages.containsKey(theme)){
-            String returnedMessage = messages.get(theme).getFirst();
-            messages.get(theme).removeFirst();
-            return returnedMessage;
-        } else {
-            throw new IllegalArgumentException("There is no message with theme: " + theme);
-        }
+        String returnedMessage = messages.get(theme).getFirst();
+        messages.get(theme).removeFirst();
+        return returnedMessage;
     }
 
     public synchronized void setMessage(String randomMessage, MessageTheme theme) {

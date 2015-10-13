@@ -14,7 +14,7 @@ public class MessageProducer implements Runnable {
     }
 
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             MessageTheme theme = MessageTheme.values()[new Random().nextInt(MessageTheme.values().length)];
             messageBus.setMessage(createRandomMessage(), theme);
         }
