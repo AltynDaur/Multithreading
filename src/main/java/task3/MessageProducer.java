@@ -1,5 +1,7 @@
 package task3;
 
+import org.apache.log4j.Logger;
+
 import java.util.Random;
 
 /**
@@ -8,15 +10,20 @@ import java.util.Random;
 public class MessageProducer implements Runnable {
 
     private MessageBus messageBus;
+    Logger log = Logger.getLogger(getClass());
 
     public MessageProducer(MessageBus messageBus) {
         this.messageBus = messageBus;
     }
 
     public void run() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             MessageTheme theme = MessageTheme.values()[new Random().nextInt(MessageTheme.values().length)];
-            messageBus.setMessage(createRandomMessage(), theme);
+            try {
+                messageBus.putMessage(createRandomMessage(), theme);
+            } catch (InterruptedException e) {
+                log.info("Thread "+ Thread.currentThread().getName() + "interrupted");
+            }
         }
     }
 
