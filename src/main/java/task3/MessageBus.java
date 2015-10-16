@@ -33,6 +33,7 @@ public class MessageBus {
     }
 
     public String takeMessage(MessageTheme theme) throws InterruptedException {
+        log.info("Take message with theme:" + theme + " by " + Thread.currentThread().getName());
         String returnedMessage;
         takingLock.lockInterruptibly();
         try {
@@ -51,7 +52,7 @@ public class MessageBus {
     }
 
     public void putMessage(String randomMessage, MessageTheme theme) throws InterruptedException {
-        log.info("Get message with theme:" + theme + " Message count: " + messageCounter.incrementAndGet());
+        log.info("Put message with theme:" + theme + " Message count: " + messageCounter.incrementAndGet());
         puttingLock.lockInterruptibly();
         try {
             while (messagesCounters.get(theme).get() == capacity) {
@@ -65,5 +66,13 @@ public class MessageBus {
             puttingLock.unlock();
         }
         messages.get(theme).addLast(randomMessage);
+    }
+
+    public boolean hasMessages() {
+        int result = 0;
+        for (MessageTheme theme: MessageTheme.values()){
+            result += messagesCounters.get(theme).get();
+        }
+        return result > 0;
     }
 }

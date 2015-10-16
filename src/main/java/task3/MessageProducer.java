@@ -25,6 +25,7 @@ public class MessageProducer implements Runnable {
                 log.info("Thread "+ Thread.currentThread().getName() + "interrupted");
             }
         }
+        log.info("I'm finished: Producer " + Thread.currentThread().getName());
     }
 
     private String createRandomMessage(){

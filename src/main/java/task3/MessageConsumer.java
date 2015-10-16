@@ -19,7 +19,7 @@ public class MessageConsumer implements Runnable {
     }
 
     public void run() {
-        while (true) {
+        while (messageBus.hasMessages()) {//todo: need to fix this loop
             try {
                 String message = messageBus.takeMessage(messageTheme);
                 log.info(Thread.currentThread().getName() + " theme: " + messageTheme + " message: " + message);
