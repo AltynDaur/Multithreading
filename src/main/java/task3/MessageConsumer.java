@@ -19,7 +19,7 @@ public class MessageConsumer implements Runnable {
     }
 
     public void run() {
-        while (messageBus.hasMessages()) {//todo: need to fix this loop
+        while (messageBus.hasMessages(messageTheme)) {
             try {
                 String message = messageBus.takeMessage(messageTheme);
                 log.info(Thread.currentThread().getName() + " theme: " + messageTheme + " message: " + message);
@@ -27,5 +27,6 @@ public class MessageConsumer implements Runnable {
                 log.info("Thread " + Thread.currentThread().getName() + "interrupted");
             }
         }
+        log.info("I'm finished! Consumer " + Thread.currentThread().getName());
     }
 }

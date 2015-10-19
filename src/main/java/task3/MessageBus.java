@@ -68,11 +68,7 @@ public class MessageBus {
         messages.get(theme).addLast(randomMessage);
     }
 
-    public boolean hasMessages() {
-        int result = 0;
-        for (MessageTheme theme: MessageTheme.values()){
-            result += messagesCounters.get(theme).get();
-        }
-        return result > 0;
+    public boolean hasMessages(MessageTheme messageTheme) {
+        return messagesCounters.get(messageTheme).get() > 0;
     }
 }
